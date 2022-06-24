@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-// MARK: IBOutlet
+// MARK: IBOutlet_____________________________________________________________________
     @IBOutlet var mixColorLabel: UIView!
     
     @IBOutlet var colorRedLabel: UILabel!
@@ -57,11 +57,12 @@ class ViewController: UIViewController {
     }
 
 // MARK: Private method_______________________________________________________________
+// Setup mix color label______________________________________________________________
     private func setupMixColorLabel() {
         mixColorLabel.layer.cornerRadius = 15
     }
     
-    
+// Setup color label__________________________________________________________________
     private func setupColorRedLabel() {
         colorRedLabel.text = "Red:"
         colorRedLabel.font = UIFont.systemFont(ofSize: 18)
@@ -80,7 +81,7 @@ class ViewController: UIViewController {
         colorBlueLabel.textAlignment = .left
         colorBlueLabel.textColor = .blue
     }
-//___________________________________________________________________________________
+// Setup value label___________________________________________________________________
     private func setupValueRedLAbel() {
         valueRedLabel.text = String(redSlider.value)
         valueRedLabel.font = UIFont.systemFont(ofSize: 18)
@@ -99,7 +100,7 @@ class ViewController: UIViewController {
         valueBlueLabel.textAlignment = .center
         valueBlueLabel.textColor = .blue
     }
-//___________________________________________________________________________________
+// Setup slioder_______________________________________________________________________
     private func setupRedSlider() {
         redSlider.value = 0
         redSlider.minimumValue = 0
