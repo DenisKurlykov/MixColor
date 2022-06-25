@@ -95,19 +95,19 @@ class ViewController: UIViewController {
     }
 // Setup value label____________________________________________________________
     private func setupValueRedLAbel() {
-        valueRedLabel.text = String(redSlider.value)
+        valueRedLabel.text = String(format: "%.2f", redSlider.value)
         valueRedLabel.font = UIFont.systemFont(ofSize: 18)
         valueRedLabel.textAlignment = .left
         valueRedLabel.textColor = .red
     }
     private func setupValueGreenLabel() {
-        valueGreenLabel.text = String(greenSlider.value)
+        valueGreenLabel.text = String(format: "%.2f", greenSlider.value)
         valueGreenLabel.font = UIFont.systemFont(ofSize: 18)
         valueGreenLabel.textAlignment = .left
         valueGreenLabel.textColor = .green
     }
     private func setupValueBlueLabal() {
-        valueBlueLabel.text = String(blueSlider.value)
+        valueBlueLabel.text = String(format: "%.2f", blueSlider.value)
         valueBlueLabel.font = UIFont.systemFont(ofSize: 18)
         valueBlueLabel.textAlignment = .left
         valueBlueLabel.textColor = .blue
