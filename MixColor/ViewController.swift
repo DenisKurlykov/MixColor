@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         setupGreenSlider()
         setupBlueSlider()
         
-        setupValueRedLAbel()
+        setupValueRedLabel()
         setupValueGreenLabel()
         setupValueBlueLabal()
         
@@ -46,17 +46,17 @@ class ViewController: UIViewController {
 // MARK: IBActions______________________________________________________________
     @IBAction func redSliderAction() {
         viewRgbColor()
-        valueRedLabel.text = String(redSlider.value)
+        valueRedLabel.text = String(format: "%.2f", redSlider.value)
     }
     
     @IBAction func greenSliderAction() {
         viewRgbColor()
-        valueGreenLabel.text = String(greenSlider.value)
+        valueGreenLabel.text = String(format: "%.2f", greenSlider.value)
     }
     
     @IBAction func blueSliderAction() {
         viewRgbColor()
-        valueBlueLabel.text = String(blueSlider.value)
+        valueBlueLabel.text = String(format: "%.2f", blueSlider.value)
     }
 
 // MARK: Private method_________________________________________________________
@@ -94,20 +94,20 @@ class ViewController: UIViewController {
         colorBlueLabel.textColor = .blue
     }
 // Setup value label____________________________________________________________
-    private func setupValueRedLAbel() {
-        valueRedLabel.text = String(format: "%.2f", redSlider.value)
+    private func setupValueRedLabel() {
+        valueRedLabel.text = String(redSlider.value)
         valueRedLabel.font = UIFont.systemFont(ofSize: 18)
         valueRedLabel.textAlignment = .left
         valueRedLabel.textColor = .red
     }
     private func setupValueGreenLabel() {
-        valueGreenLabel.text = String(format: "%.2f", greenSlider.value)
+        valueGreenLabel.text = String(greenSlider.value)
         valueGreenLabel.font = UIFont.systemFont(ofSize: 18)
         valueGreenLabel.textAlignment = .left
         valueGreenLabel.textColor = .green
     }
     private func setupValueBlueLabal() {
-        valueBlueLabel.text = String(format: "%.2f", blueSlider.value)
+        valueBlueLabel.text = String(blueSlider.value)
         valueBlueLabel.font = UIFont.systemFont(ofSize: 18)
         valueBlueLabel.textAlignment = .left
         valueBlueLabel.textColor = .blue
