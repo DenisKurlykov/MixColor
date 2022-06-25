@@ -9,8 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-// MARK: IBOutlet_____________________________________________________________________
-    @IBOutlet var mixColorLabel: UIView!
+// MARK: IBOutlet_______________________________________________________________
+    @IBOutlet var mixColorView: UIView!
     
     @IBOutlet var colorRedLabel: UILabel!
     @IBOutlet var colorGreenLabel: UILabel!
@@ -26,7 +26,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupMixColorLabel()
+        setupMixColorView()
         
         setupRedSlider()
         setupGreenSlider()
@@ -41,28 +41,41 @@ class ViewController: UIViewController {
         setupColorGreenLabel()
         setupColorBlueLabel()
         
+        viewRgbColor()
     }
 
-// MARK: IBActions____________________________________________________________________
+// MARK: IBActions______________________________________________________________
     @IBAction func redSliderAction() {
+        viewRgbColor()
         valueRedLabel.text = String(redSlider.value)
     }
     
     @IBAction func greenSliderAction() {
+        viewRgbColor()
         valueGreenLabel.text = String(greenSlider.value)
     }
     
     @IBAction func blueSliderAction() {
+        viewRgbColor()
         valueBlueLabel.text = String(blueSlider.value)
     }
 
-// MARK: Private method_______________________________________________________________
-// Setup mix color label______________________________________________________________
-    private func setupMixColorLabel() {
-        mixColorLabel.layer.cornerRadius = 15
+// MARK: Private method_________________________________________________________
+// Setup mix color label________________________________________________________
+    private func setupMixColorView() {
+        mixColorView.layer.cornerRadius = 15
     }
     
-// Setup color label__________________________________________________________________
+    private func viewRgbColor () {
+        mixColorView.backgroundColor = UIColor(
+            red: CGFloat(redSlider.value) / 255,
+            green: CGFloat(greenSlider.value) / 255,
+            blue: CGFloat(blueSlider.value) / 255,
+            alpha: 1
+        )
+    }
+    
+// Setup color label____________________________________________________________
     private func setupColorRedLabel() {
         colorRedLabel.text = "Red:"
         colorRedLabel.font = UIFont.systemFont(ofSize: 18)
@@ -81,7 +94,7 @@ class ViewController: UIViewController {
         colorBlueLabel.textAlignment = .left
         colorBlueLabel.textColor = .blue
     }
-// Setup value label___________________________________________________________________
+// Setup value label____________________________________________________________
     private func setupValueRedLAbel() {
         valueRedLabel.text = String(redSlider.value)
         valueRedLabel.font = UIFont.systemFont(ofSize: 18)
@@ -100,9 +113,9 @@ class ViewController: UIViewController {
         valueBlueLabel.textAlignment = .center
         valueBlueLabel.textColor = .blue
     }
-// Setup slioder_______________________________________________________________________
+// Setup slider_________________________________________________________________
     private func setupRedSlider() {
-        redSlider.value = 0
+        redSlider.value = 1
         redSlider.minimumValue = 0
         redSlider.maximumValue = 255
         
@@ -110,7 +123,7 @@ class ViewController: UIViewController {
     }
     
     private func setupGreenSlider() {
-        greenSlider.value = 0
+        greenSlider.value = 20
         greenSlider.minimumValue = 0
         greenSlider.maximumValue = 255
         
@@ -118,7 +131,7 @@ class ViewController: UIViewController {
     }
     
     private func setupBlueSlider() {
-        blueSlider.value = 0
+        blueSlider.value = 50
         blueSlider.minimumValue = 0
         blueSlider.maximumValue = 255
         
