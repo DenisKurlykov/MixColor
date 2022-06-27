@@ -9,12 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
-// MARK: IBOutlet_______________________________________________________________
+// MARK: - IBOutlet
     @IBOutlet var mixColorView: UIView!
-    
-    @IBOutlet var colorRedLabel: UILabel!
-    @IBOutlet var colorGreenLabel: UILabel!
-    @IBOutlet var colorBlueLabel: UILabel!
     
     @IBOutlet var valueRedLabel: UILabel!
     @IBOutlet var valueGreenLabel: UILabel!
@@ -26,24 +22,22 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupMixColorView()
         
-        setupRedSlider()
-        setupGreenSlider()
-        setupBlueSlider()
+        redSlider.value = 0.71
+        greenSlider.value = 0.34
+        blueSlider.value = 0.12
         
         setupValueRedLabel()
         setupValueGreenLabel()
         setupValueBlueLabal()
-        
-        setupColorRedLabel()
-        setupColorGreenLabel()
-        setupColorBlueLabel()
-        
+
         viewRgbColor()
     }
-
-// MARK: IBActions______________________________________________________________
+    
+// MARK: - IBActions
+    
     @IBAction func redSliderAction() {
         viewRgbColor()
         valueRedLabel.text = String(format: "%.2f", redSlider.value)
@@ -59,8 +53,9 @@ class ViewController: UIViewController {
         valueBlueLabel.text = String(format: "%.2f", blueSlider.value)
     }
 
-// MARK: Private method_________________________________________________________
-// Setup mix color label________________________________________________________
+    // MARK: - Private method
+    
+    // Setup mix color label
     private func setupMixColorView() {
         mixColorView.layer.cornerRadius = 15
     }
@@ -74,26 +69,21 @@ class ViewController: UIViewController {
         )
     }
     
-// Setup color label____________________________________________________________
-    private func setupColorRedLabel() {
-        colorRedLabel.text = "Red:"
-        colorRedLabel.font = UIFont.systemFont(ofSize: 18)
-        colorRedLabel.textAlignment = .left
-        colorRedLabel.textColor = .red
+    // Setup color label
+    private func setupLabel(
+        label: UILabel,
+        textFont: UIFont,
+        text: String,
+        alignment: NSTextAlignment,
+        textColor: UIColor
+    ) {
+        label.text = text
+        label.textAlignment = alignment
+        label.font = textFont
+        label.textColor = textColor
     }
-    private func setupColorGreenLabel() {
-        colorGreenLabel.text = "Green:"
-        colorGreenLabel.font = UIFont.systemFont(ofSize: 18)
-        colorGreenLabel.textAlignment = .left
-        colorGreenLabel.textColor = .green
-    }
-    private func setupColorBlueLabel() {
-        colorBlueLabel.text = "Blue:"
-        colorBlueLabel.font = UIFont.systemFont(ofSize: 18)
-        colorBlueLabel.textAlignment = .left
-        colorBlueLabel.textColor = .blue
-    }
-// Setup value label____________________________________________________________
+    
+    // Setup value label
     private func setupValueRedLabel() {
         valueRedLabel.text = String(redSlider.value)
         valueRedLabel.font = UIFont.systemFont(ofSize: 18)
@@ -111,30 +101,6 @@ class ViewController: UIViewController {
         valueBlueLabel.font = UIFont.systemFont(ofSize: 18)
         valueBlueLabel.textAlignment = .left
         valueBlueLabel.textColor = .blue
-    }
-// Setup slider_________________________________________________________________
-    private func setupRedSlider() {
-        redSlider.value = 0.71
-        redSlider.minimumValue = 0
-        redSlider.maximumValue = 1
-        
-        redSlider.minimumTrackTintColor = .red
-    }
-    
-    private func setupGreenSlider() {
-        greenSlider.value = 0.34
-        greenSlider.minimumValue = 0
-        greenSlider.maximumValue = 1
-        
-        greenSlider.minimumTrackTintColor = .green
-    }
-    
-    private func setupBlueSlider() {
-        blueSlider.value = 0.12
-        blueSlider.minimumValue = 0
-        blueSlider.maximumValue = 1
-        
-        blueSlider.minimumTrackTintColor = .blue
     }
 }
 
