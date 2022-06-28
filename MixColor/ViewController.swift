@@ -23,11 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupMixColorView()
-        
-        redSlider.value = 0.71
-        greenSlider.value = 0.34
-        blueSlider.value = 0.12
+        mixColorView.layer.cornerRadius = 15
         
         setupValueRedLabel()
         setupValueGreenLabel()
@@ -38,27 +34,19 @@ class ViewController: UIViewController {
     
 // MARK: - IBActions
     
-    @IBAction func redSliderAction() {
+    @IBAction func sliderAction(_ sender: UISlider) {
         viewRgbColor()
-        valueRedLabel.text = String(format: "%.2f", redSlider.value)
+        switch sender {
+        case redSlider:
+            valueRedLabel.text = string(for: redSlider)
+        case greenSlider:
+            valueGreenLabel.text = string(for: greenSlider)
+        default:
+            valueBlueLabel.text = string(for: blueSlider)
+        }
     }
     
-    @IBAction func greenSliderAction() {
-        viewRgbColor()
-        valueGreenLabel.text = String(format: "%.2f", greenSlider.value)
-    }
-    
-    @IBAction func blueSliderAction() {
-        viewRgbColor()
-        valueBlueLabel.text = String(format: "%.2f", blueSlider.value)
-    }
-
     // MARK: - Private method
-    
-    // Setup mix color label
-    private func setupMixColorView() {
-        mixColorView.layer.cornerRadius = 15
-    }
     
     private func viewRgbColor () {
         mixColorView.backgroundColor = UIColor(
@@ -68,40 +56,28 @@ class ViewController: UIViewController {
             alpha: 1
         )
     }
-    
-    // Setup color label
-    private func setupLabel(
-        label: UILabel,
-        textFont: UIFont,
-        text: String,
-        alignment: NSTextAlignment,
-        textColor: UIColor
-    ) {
-        label.text = text
-        label.textAlignment = alignment
-        label.font = textFont
-        label.textColor = textColor
-    }
+
     
     // Setup value label
     private func setupValueRedLabel() {
         valueRedLabel.text = String(redSlider.value)
-        valueRedLabel.font = UIFont.systemFont(ofSize: 18)
-        valueRedLabel.textAlignment = .left
-        valueRedLabel.textColor = .red
+
     }
     private func setupValueGreenLabel() {
         valueGreenLabel.text = String(greenSlider.value)
-        valueGreenLabel.font = UIFont.systemFont(ofSize: 18)
-        valueGreenLabel.textAlignment = .left
-        valueGreenLabel.textColor = .green
+
     }
     private func setupValueBlueLabal() {
         valueBlueLabel.text = String(blueSlider.value)
-        valueBlueLabel.font = UIFont.systemFont(ofSize: 18)
-        valueBlueLabel.textAlignment = .left
-        valueBlueLabel.textColor = .blue
+
     }
+
+   // Rounding the value for valueLabel
+    private func string(for slider: UISlider) -> String {
+        String(format: "%.2f", slider.value)
+    }
+
 }
+
 
 
