@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SetupViewController: UIViewController {
+class SetupViewController: UIViewController, UITextFieldDelegate {
 
 // MARK: - IBOutlet
     @IBOutlet var mixColorView: UIView!
@@ -20,11 +20,22 @@ class SetupViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
+    @IBOutlet var redTextField: UITextField!
+    @IBOutlet var greenTextField: UITextField!
+    @IBOutlet var blueTextField: UITextField!
+    
+    
     var setColor: UIColor!
     var delegate: SetupViewControllerDelegate!
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        redTextField.delegate = self
+        greenTextField.delegate = self
+        blueTextField.delegate = self
+        
         
         mixColorView.layer.cornerRadius = 15
         mixColorView.backgroundColor = setColor
@@ -36,6 +47,12 @@ class SetupViewController: UIViewController {
         setupValueBlueLabal()
 
         viewRgbColor()
+        
+        addDoneButton(
+            to: redTextField,
+                greenTextField,
+                blueTextField
+        )
     }
     
 // MARK: - IBActions
@@ -45,10 +62,13 @@ class SetupViewController: UIViewController {
         switch sender {
         case redSlider:
             valueRedLabel.text = string(for: redSlider)
+            redTextField.text = string(for: redSlider)
         case greenSlider:
             valueGreenLabel.text = string(for: greenSlider)
+            greenTextField.text = string(for: greenSlider)
         default:
             valueBlueLabel.text = string(for: blueSlider)
+            blueTextField.text = string(for: blueSlider)
         }
     }
     @IBAction func doneButtonpresed() {
@@ -94,7 +114,43 @@ class SetupViewController: UIViewController {
         String(format: "%.2f", slider.value)
     }
 
+    private func addDoneButton(to textFields: UITextField...) {
+        
+        textFields.forEach { textField in
+            let keyboardToolbar = UIToolbar()
+            textField.inputAccessoryView = keyboardToolbar
+            keyboardToolbar.sizeToFit()
+            
+            let doneButton = UIBarButtonItem(
+                title:"Done",
+                style: .done,
+                target: self,
+                action: #selector(didTapDone)
+            )
+            
+            let flexBarButton = UIBarButtonItem(
+                barButtonSystemItem: .flexibleSpace,
+                target: nil,
+                action: nil
+            )
+            
+            keyboardToolbar.items = [flexBarButton, doneButton]
+        }
+    }
+    
+    @objc private func didTapDone() {
+        view.endEditing(true)
+    }
+
 }
 
-
+////MARK: - UITextFieldDelegate
+//extension SetupViewController: UITextFieldDelegate {
+//    func textFieldDidEndEditing(_ textField: UITextField) {
+//        guard let newValue = textField.text else { return }
+//        guard let numberValue = Float(newValue) else { return }
+//        if textField =
+//    }
+//}
+// ЗДЕСЬ Я ОКОНЧАТЕЛЬНО ЗАПУТАЛСЯ
 
