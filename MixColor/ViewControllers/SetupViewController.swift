@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class SetupViewController: UIViewController {
 
 // MARK: - IBOutlet
     @IBOutlet var mixColorView: UIView!
@@ -20,10 +20,16 @@ class ViewController: UIViewController {
     @IBOutlet var greenSlider: UISlider!
     @IBOutlet var blueSlider: UISlider!
     
+    var setColor: UIColor!
+    var delegate: SetupViewControllerDelegate!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         mixColorView.layer.cornerRadius = 15
+        mixColorView.backgroundColor = setColor
+        
+        setSlider()
         
         setupValueRedLabel()
         setupValueGreenLabel()
@@ -45,9 +51,20 @@ class ViewController: UIViewController {
             valueBlueLabel.text = string(for: blueSlider)
         }
     }
+    @IBAction func doneButtonpresed() {
+        delegate.setNewColor(for: mixColorView.backgroundColor ?? UIColor.white)
+        dismiss(animated: true)
+    }
     
     // MARK: - Private method
     
+    private func setSlider() {
+        let color = CIColor(color: setColor)
+        redSlider.value = Float(color.red)
+        greenSlider.value = Float(color.green)
+        blueSlider.value = Float(color.blue)
+    }
+   
     private func viewRgbColor () {
         mixColorView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
