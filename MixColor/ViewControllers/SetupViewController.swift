@@ -41,10 +41,7 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
         mixColorView.backgroundColor = setColor
         
         setSlider()
-        
-        setupValueRedLabel()
-        setupValueGreenLabel()
-        setupValueBlueLabal()
+        setValue(for: valueRedLabel, valueGreenLabel, valueBlueLabel)
 
         viewRgbColor()
         
@@ -95,19 +92,16 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
     }
 
     
-    // Setup value label
-    private func setupValueRedLabel() {
-        valueRedLabel.text = String(redSlider.value)
-
+    private func setValue(for labels: UILabel...) {
+        labels.forEach { label in
+            switch label {
+            case valueRedLabel: label.text = string(for: redSlider)
+            case valueGreenLabel: label.text = string(for: greenSlider)
+            default: label.text = string(for: blueSlider)
+            }
+        }
     }
-    private func setupValueGreenLabel() {
-        valueGreenLabel.text = String(greenSlider.value)
-
-    }
-    private func setupValueBlueLabal() {
-        valueBlueLabel.text = String(blueSlider.value)
-
-    }
+    
 
    // Rounding the value for valueLabel
     private func string(for slider: UISlider) -> String {
