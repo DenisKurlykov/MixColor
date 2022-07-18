@@ -24,17 +24,15 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet var greenTextField: UITextField!
     @IBOutlet var blueTextField: UITextField!
     
-    
+    // MARK: - Public Properties
     var setColor: UIColor!
     var delegate: SetupViewControllerDelegate!
 
-    
+    // MARK: - View Life Cicle
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        redTextField.delegate = self
-        greenTextField.delegate = self
-        blueTextField.delegate = self
+
         
         
         mixColorView.layer.cornerRadius = 15
