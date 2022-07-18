@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SetupViewController: UIViewController, UITextFieldDelegate {
+class SetupViewController: UIViewController {
 
 // MARK: - IBOutlet
     @IBOutlet var mixColorView: UIView!
@@ -31,41 +31,37 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
     // MARK: - View Life Cicle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-
-        
-        
         mixColorView.layer.cornerRadius = 15
         mixColorView.backgroundColor = setColor
         
-        setSlider()
-        setValue(for: valueRedLabel, valueGreenLabel, valueBlueLabel)
-
         viewRgbColor()
-        
-        addDoneButton(
-            to: redTextField,
-                greenTextField,
-                blueTextField
-        )
+        setValue(for: redSlider, greenSlider, blueSlider)
+        setValue(for: valueRedLabel, valueGreenLabel, valueBlueLabel)
+        setValue(for: redTextField, greenTextField, blueTextField)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
+        view.endEditing(true)
     }
     
 // MARK: - IBActions
     
     @IBAction func sliderAction(_ sender: UISlider) {
-        viewRgbColor()
         switch sender {
         case redSlider:
-            valueRedLabel.text = string(for: redSlider)
-            redTextField.text = string(for: redSlider)
+            setValue(for: valueRedLabel)
+            setValue(for: redTextField)
         case greenSlider:
-            valueGreenLabel.text = string(for: greenSlider)
-            greenTextField.text = string(for: greenSlider)
+            setValue(for: greenSlider)
+            setValue(for: greenTextField)
         default:
-            valueBlueLabel.text = string(for: blueSlider)
-            blueTextField.text = string(for: blueSlider)
+            setValue(for: valueBlueLabel)
+            setValue(for: blueTextField)
         }
+        viewRgbColor()
     }
+    
     @IBAction func doneButtonpresed() {
         delegate.setNewColor(for: mixColorView.backgroundColor ?? UIColor.white)
         dismiss(animated: true)
@@ -73,13 +69,6 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: - Private method
     
-    private func setSlider() {
-        let color = CIColor(color: setColor)
-        redSlider.value = Float(color.red)
-        greenSlider.value = Float(color.green)
-        blueSlider.value = Float(color.blue)
-    }
-   
     private func viewRgbColor () {
         mixColorView.backgroundColor = UIColor(
             red: CGFloat(redSlider.value),
@@ -88,8 +77,7 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
             alpha: 1
         )
     }
-
-    
+   
     private func setValue(for labels: UILabel...) {
         labels.forEach { label in
             switch label {
@@ -100,49 +88,95 @@ class SetupViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    private func setValue(for textFields: UITextField...) {
+        textFields.forEach { textField in
+            switch textField {
+            case redTextField: textField.text = string(for: redSlider)
+            case greenTextField: textField.text = string(for: greenSlider)
+            default: textField.text = string(for: blueSlider)
+            }
+        }
+    }
+    
+    private func setValue(for colorSliders: UISlider...) {
+        let ciColor = CIColor(color: setColor)
+        colorSliders.forEach { colorSlider in
+            switch colorSlider {
+            case redSlider: redSlider.value = Float(ciColor.red)
+            case greenSlider: greenSlider.value = Float(ciColor.green)
+            default: blueSlider.value = Float(ciColor.blue)
+            }
+        }
+
+        
+    }
 
    // Rounding the value for valueLabel
     private func string(for slider: UISlider) -> String {
         String(format: "%.2f", slider.value)
     }
 
-    private func addDoneButton(to textFields: UITextField...) {
-        
-        textFields.forEach { textField in
-            let keyboardToolbar = UIToolbar()
-            textField.inputAccessoryView = keyboardToolbar
-            keyboardToolbar.sizeToFit()
-            
-            let doneButton = UIBarButtonItem(
-                title:"Done",
-                style: .done,
-                target: self,
-                action: #selector(didTapDone)
-            )
-            
-            let flexBarButton = UIBarButtonItem(
-                barButtonSystemItem: .flexibleSpace,
-                target: nil,
-                action: nil
-            )
-            
-            keyboardToolbar.items = [flexBarButton, doneButton]
-        }
-    }
-    
+
     @objc private func didTapDone() {
         view.endEditing(true)
     }
-
+   
+    private func showAlert(title: String, message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default)
+        alert.addAction(okAction)
+        present(alert, animated: true)
+    }
 }
 
-////MARK: - UITextFieldDelegate
-//extension SetupViewController: UITextFieldDelegate {
-//    func textFieldDidEndEditing(_ textField: UITextField) {
-//        guard let newValue = textField.text else { return }
-//        guard let numberValue = Float(newValue) else { return }
-//        if textField =
-//    }
-//}
-// ЗДЕСЬ Я ОКОНЧАТЕЛЬНО ЗАПУТАЛСЯ
+// MARK: - UITextFieldDelegate
+extension SetupViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        guard let text = textField.text else { return }
+        
+        if let currentValue = Float(text), currentValue <= 1 {
+            switch textField {
+            case redTextField:
+                redSlider.setValue(currentValue, animated: true)
+                setValue(for: valueRedLabel)
+            case greenTextField:
+                greenSlider.setValue(currentValue, animated: true)
+                setValue(for: valueGreenLabel)
+            default:
+                blueSlider.setValue(currentValue, animated: true)
+                setValue(for: valueBlueLabel)
+            }
+            
+            viewRgbColor()
+            return
+        }
+        
+        showAlert(title: "Wrong format!", message: "Please enter correct value")
+    }
+    
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        let keyboardToolbar = UIToolbar()
+        keyboardToolbar.sizeToFit()
+        textField.inputAccessoryView = keyboardToolbar
+        
+        let doneButton = UIBarButtonItem(
+            barButtonSystemItem: .done,
+            target: self,
+            action: #selector(didTapDone)
+        )
+        
+        let flexBarButton = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        
+        keyboardToolbar.items = [flexBarButton, doneButton]
+    }
+}
 
